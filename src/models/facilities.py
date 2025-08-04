@@ -1,0 +1,19 @@
+from dataclasses import dataclass
+from enum import Enum
+
+
+class RoomType(Enum):
+    CLASSROOM = "Classroom"
+    LAB = "Laboratory"
+    WORKSHOP = "DT Workshop"
+    THEATRE = "Theatre"
+    DRAMA = "Drama Room"
+    MUSIC = "Music Room"
+    LIBRARY = "Library"
+
+
+@dataclass
+class Room:
+    id: str
+    capacity: int
+    type: RoomType

@@ -1,0 +1,25 @@
+[
+    {
+        "type": "SubjectSpacing",
+        "id": "SSP1",
+        "name": "Math",
+        "is_hard": false,
+        "max_per_day": 2,
+        "weight": 4.0
+    },
+    {
+        "type": "NoSplitLessons",
+        "id": "NSL1",
+        "name": "No Split Lessons",
+        "is_hard": false,
+        "weight": 3.0
+    },
+    {
+        "type": "RoomPreference",
+        "id": "RP1",
+        "name": "Preferred Rooms",
+        "is_hard": false,
+        "preferred_rooms": ["LAB1", "LAB2"],
+        "weight": 2.0
+    }
+]
