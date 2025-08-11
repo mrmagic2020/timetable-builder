@@ -10,6 +10,8 @@ class RoomType(Enum):
     DRAMA = "Drama Room"
     MUSIC = "Music Room"
     LIBRARY = "Library"
+    STAFF = "Staff Room"
+    SPORT = "Sport Field"
 
 
 @dataclass
@@ -17,3 +19,5 @@ class Room:
     id: str
     capacity: int
     type: RoomType
+    location: str
+
