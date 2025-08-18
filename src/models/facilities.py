@@ -20,4 +20,3 @@ class Room:
     capacity: int
     type: RoomType
     location: str
-
