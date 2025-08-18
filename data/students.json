@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1541310,
+        "name": "Daniel Cox",
+        "subjects": [
+            "11ENG.1",
+            "11ENX.1",
+            "11SEN.1",
+            "11MAT.O",
+            "11MAE.O",
+            "11CHE.1",
+            "11PHY.1"
+        ]
+    },
+    {
+        "id": 1546002,
+        "name": "Arnold Zhou",
+        "subjects": [
+            "11ENG.1",
+            "11ENX.1",
+            "11FRE.1",
+            "11MAT.O",
+            "11MAE.O",
+            "11CHE.1",
+            "11PHY.1"
+        ]
+    }
+]

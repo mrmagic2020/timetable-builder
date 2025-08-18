@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 
+from .types import RoomId
+
 
 class RoomType(Enum):
     CLASSROOM = "Classroom"
@@ -16,7 +18,6 @@ class RoomType(Enum):
 
 @dataclass
 class Room:
-    id: str
+    id: RoomId
     capacity: int
     type: RoomType
-    location: str

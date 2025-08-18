@@ -1,0 +1,10 @@
+[
+    { "id": "C210", "capacity": 25, "type": "Classroom" },
+    { "id": "G300", "capacity": 25, "type": "Classroom" },
+    { "id": "G301", "capacity": 25, "type": "Classroom" },
+    { "id": "G210", "capacity": 25, "type": "Classroom" },
+    { "id": "S200", "capacity": 25, "type": "Laboratory" },
+    { "id": "S206", "capacity": 25, "type": "Laboratory" },
+    { "id": "S201", "capacity": 25, "type": "Classroom" },
+    { "id": "S406", "capacity": 25, "type": "Classroom" }
+]

@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 import datetime
+from dataclasses import dataclass
 
 
 @dataclass
@@ -18,6 +18,11 @@ class TimeSlot:
 
 
 @dataclass
-class Class:
-    subject: str
-    # maybe make subject a memeber of this like roomtype is a memeber of room but idk
+class SchoolClass:
+    """Represents a class grouping (e.g., 10A) with a primary subject focus.
+
+    This can evolve as the data model matures; kept minimal for now.
+    """
+
+    name: str
+    subject_id: str

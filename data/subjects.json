@@ -1,0 +1,58 @@
+[
+    {
+        "id": "11MAT.O",
+        "name": "Y11 Maths Advanced Set 1",
+        "intensity": 5,
+        "required_per_cycle": 10,
+        "constraints": []
+    },
+    {
+        "id": "11MAE.O",
+        "name": "Y11 Maths Extension Set 1",
+        "intensity": 5,
+        "required_per_cycle": 5,
+        "constraints": []
+    },
+    {
+        "id": "11ENA.1",
+        "name": "Y11 English Advanced Set 1",
+        "intensity": 2,
+        "required_per_cycle": 10,
+        "constraints": []
+    },
+    {
+        "id": "11ENX.1",
+        "name": "Y11 English Extension Set 1",
+        "intensity": 3,
+        "required_per_cycle": 5,
+        "constraints": []
+    },
+    {
+        "id": "11FRE.1",
+        "name": "Y11 French Set 1",
+        "intensity": 3,
+        "required_per_cycle": 10,
+        "constraints": []
+    },
+    {
+        "id": "11CHE.1",
+        "name": "Y11 Chemistry Set 1",
+        "intensity": 4,
+        "required_per_cycle": 10,
+        "constraints": []
+    },
+    {
+        "id": "11PHY.1",
+        "name": "Y11 Physics Set 1",
+        "intensity": 4,
+        "required_per_cycle": 10,
+        "constraints": []
+    },
+    {
+        "id": "11SEN.1",
+        "name": "Y11 Software Engineering Set 1",
+        "intensity": 4,
+        "required_per_cycle": 10,
+        "constraints": []
+    }
+]
