@@ -1,0 +1,88 @@
+{
+  "owner_id": 4,
+  "periods_per_day": 6,
+  "days": [
+    "AMON",
+    "ATUE",
+    "AWED",
+    "ATHU",
+    "AFRI",
+    "BMON",
+    "BTUE",
+    "BWED",
+    "BTHU",
+    "BFRI"
+  ],
+  "lessons": [
+    {
+      "day": "AMON",
+      "period": 6,
+      "lesson": {
+        "id": "L00061",
+        "subject_id": "11ENX.1",
+        "teacher_id": 4,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATUE",
+      "period": 6,
+      "lesson": {
+        "id": "L00062",
+        "subject_id": "11ENX.1",
+        "teacher_id": 4,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AWED",
+      "period": 6,
+      "lesson": {
+        "id": "L00063",
+        "subject_id": "11ENX.1",
+        "teacher_id": 4,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATHU",
+      "period": 6,
+      "lesson": {
+        "id": "L00064",
+        "subject_id": "11ENX.1",
+        "teacher_id": 4,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AFRI",
+      "period": 6,
+      "lesson": {
+        "id": "L00065",
+        "subject_id": "11ENX.1",
+        "teacher_id": 4,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    }
+  ]
+}

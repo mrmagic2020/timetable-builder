@@ -1,18 +1,38 @@
-from models.timetable import Day, Lesson, LessonPlacement, Timetable
+from pathlib import Path
+
+from src.core.generate import TimetableScheduler
+from src.loaders.DataLoaders import (
+    load_rooms,
+    load_students,
+    load_subjects,
+    load_teachers,
+)
+from src.models.timetable import Day, Lesson, LessonPlacement, Timetable
 
 
 def generate_timetable_example():
-    tt = Timetable(periods_per_day=6)
+    tt = Timetable(periods_per_day=6, owner_id=0)
     lesson = Lesson(id="L001", subject_id="SUB001", teacher_id=1, room_id="R001")
-    tt.add(LessonPlacement(day=Day.MON, period=1, lesson=lesson))
+    tt.add(LessonPlacement(day=Day.AMON, period=1, lesson=lesson))
     return tt
 
 
-if __name__ == "__main__":
-    # Example timetable (not persisted)
-    _tt = generate_timetable_example()
-    print(
-        "Example timetable built with",
-        len(_tt.lessons_on(Day.MON, 1)),
-        "lesson(s) at Mon P1",
+def generate_all():
+    subjects = load_subjects("data/subjects.json")
+    teachers = load_teachers("data/teachers.json")
+    students = load_students("data/students.json")
+    rooms = load_rooms("data/rooms.json")
+    scheduler = TimetableScheduler(
+        subjects=subjects,
+        teachers=teachers,
+        students=students,
+        rooms=rooms,
+        periods_per_day=6,
     )
+    scheduler.schedule_all()
+    scheduler.save()
+    print("Generated timetables written to output/timetables")
+
+
+if __name__ == "__main__":
+    generate_all()

@@ -4,9 +4,9 @@ import json
 from pathlib import Path
 from typing import List
 
+from src.models.curriculum import Subject
 from src.models.facilities import Room, RoomType
 from src.models.people import Student, Teacher
-from src.models.curriculum import Subject
 
 
 def _read_json(path: str | Path):
@@ -38,7 +38,9 @@ def load_teachers(json_path: str | Path) -> List[Teacher]:
                 name=t["name"],
                 office=t["office"],
                 subjects=list(t.get("subjects", [])),
-                availability={k: list(map(int, v)) for k, v in t.get("availability", {}).items()},
+                availability={
+                    k: list(map(int, v)) for k, v in t.get("availability", {}).items()
+                },
             )
         )
     return teachers

@@ -1,0 +1,228 @@
+{
+  "owner_id": 1,
+  "periods_per_day": 6,
+  "days": [
+    "AMON",
+    "ATUE",
+    "AWED",
+    "ATHU",
+    "AFRI",
+    "BMON",
+    "BTUE",
+    "BWED",
+    "BTHU",
+    "BFRI"
+  ],
+  "lessons": [
+    {
+      "day": "AMON",
+      "period": 4,
+      "lesson": {
+        "id": "L00031",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATUE",
+      "period": 4,
+      "lesson": {
+        "id": "L00032",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AWED",
+      "period": 4,
+      "lesson": {
+        "id": "L00033",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATHU",
+      "period": 4,
+      "lesson": {
+        "id": "L00034",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AFRI",
+      "period": 4,
+      "lesson": {
+        "id": "L00035",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BMON",
+      "period": 4,
+      "lesson": {
+        "id": "L00036",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BMON",
+      "period": 6,
+      "lesson": {
+        "id": "L00066",
+        "subject_id": "11MAE.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTUE",
+      "period": 4,
+      "lesson": {
+        "id": "L00037",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTUE",
+      "period": 6,
+      "lesson": {
+        "id": "L00067",
+        "subject_id": "11MAE.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BWED",
+      "period": 4,
+      "lesson": {
+        "id": "L00038",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BWED",
+      "period": 6,
+      "lesson": {
+        "id": "L00068",
+        "subject_id": "11MAE.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTHU",
+      "period": 4,
+      "lesson": {
+        "id": "L00039",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTHU",
+      "period": 6,
+      "lesson": {
+        "id": "L00069",
+        "subject_id": "11MAE.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BFRI",
+      "period": 4,
+      "lesson": {
+        "id": "L00040",
+        "subject_id": "11MAT.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BFRI",
+      "period": 6,
+      "lesson": {
+        "id": "L00070",
+        "subject_id": "11MAE.O",
+        "teacher_id": 1,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    }
+  ]
+}

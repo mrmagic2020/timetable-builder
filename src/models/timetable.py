@@ -9,11 +9,16 @@ from .types import RoomId, StudentId, SubjectId, TeacherId
 
 
 class Day(Enum):
-    MON = "Mon"
-    TUE = "Tue"
-    WED = "Wed"
-    THU = "Thu"
-    FRI = "Fri"
+    AMON = "Mon WA"
+    ATUE = "Tue WA"
+    AWED = "Wed WA"
+    ATHU = "Thu WA"
+    AFRI = "Fri WA"
+    BMON = "Mon WB"
+    BTUE = "Tue WB"
+    BWED = "Wed WB"
+    BTHU = "Thu WB"
+    BFRI = "Fri WB"
 
 
 @dataclass(frozen=True)
@@ -62,20 +67,16 @@ class Timetable:
 
     def __init__(
         self,
-        periods_per_day: int = 7,
+        owner_id: TeacherId | StudentId,
+        periods_per_day: int = 6,
         day_order: Optional[List[Day]] = None,
         period_times: Optional[Dict[int, Tuple[Optional[time], Optional[time]]]] = None,
     ):
         if periods_per_day <= 0:
             raise ValueError("periods_per_day must be > 0")
+        self.owner_id = owner_id
         self.periods_per_day = periods_per_day
-        self.days: List[Day] = day_order or [
-            Day.MON,
-            Day.TUE,
-            Day.WED,
-            Day.THU,
-            Day.FRI,
-        ]
+        self.days: List[Day] = day_order or list(Day)
 
         # (day, period) -> placements
         self._grid: Dict[Tuple[Day, int], List[LessonPlacement]] = {}
@@ -95,6 +96,12 @@ class Timetable:
     def add(self, placement: LessonPlacement) -> None:
         self._validate_slot(placement.day, placement.period)
         key = (placement.day, placement.period)
+
+        # Disallow multiple lessons in the same slot for this timetable owner
+        if self._grid.get(key):
+            raise ValueError(
+                f"Slot already occupied for owner {self.owner_id} on {placement.day.name} P{placement.period}"
+            )
 
         # Check collisions
         room = placement.lesson.room_id

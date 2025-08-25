@@ -1,0 +1,158 @@
+{
+  "owner_id": 7,
+  "periods_per_day": 6,
+  "days": [
+    "AMON",
+    "ATUE",
+    "AWED",
+    "ATHU",
+    "AFRI",
+    "BMON",
+    "BTUE",
+    "BWED",
+    "BTHU",
+    "BFRI"
+  ],
+  "lessons": [
+    {
+      "day": "AMON",
+      "period": 5,
+      "lesson": {
+        "id": "L00041",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATUE",
+      "period": 5,
+      "lesson": {
+        "id": "L00042",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AWED",
+      "period": 5,
+      "lesson": {
+        "id": "L00043",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATHU",
+      "period": 5,
+      "lesson": {
+        "id": "L00044",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AFRI",
+      "period": 5,
+      "lesson": {
+        "id": "L00045",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BMON",
+      "period": 5,
+      "lesson": {
+        "id": "L00046",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTUE",
+      "period": 5,
+      "lesson": {
+        "id": "L00047",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BWED",
+      "period": 5,
+      "lesson": {
+        "id": "L00048",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTHU",
+      "period": 5,
+      "lesson": {
+        "id": "L00049",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BFRI",
+      "period": 5,
+      "lesson": {
+        "id": "L00050",
+        "subject_id": "11PHY.1",
+        "teacher_id": 7,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    }
+  ]
+}

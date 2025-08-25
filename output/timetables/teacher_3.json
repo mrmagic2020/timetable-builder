@@ -1,0 +1,158 @@
+{
+  "owner_id": 3,
+  "periods_per_day": 6,
+  "days": [
+    "AMON",
+    "ATUE",
+    "AWED",
+    "ATHU",
+    "AFRI",
+    "BMON",
+    "BTUE",
+    "BWED",
+    "BTHU",
+    "BFRI"
+  ],
+  "lessons": [
+    {
+      "day": "AMON",
+      "period": 2,
+      "lesson": {
+        "id": "L00011",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATUE",
+      "period": 2,
+      "lesson": {
+        "id": "L00012",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AWED",
+      "period": 2,
+      "lesson": {
+        "id": "L00013",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "ATHU",
+      "period": 2,
+      "lesson": {
+        "id": "L00014",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "AFRI",
+      "period": 2,
+      "lesson": {
+        "id": "L00015",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BMON",
+      "period": 2,
+      "lesson": {
+        "id": "L00016",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTUE",
+      "period": 2,
+      "lesson": {
+        "id": "L00017",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BWED",
+      "period": 2,
+      "lesson": {
+        "id": "L00018",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BTHU",
+      "period": 2,
+      "lesson": {
+        "id": "L00019",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    },
+    {
+      "day": "BFRI",
+      "period": 2,
+      "lesson": {
+        "id": "L00020",
+        "subject_id": "11ENA.1",
+        "teacher_id": 3,
+        "room_id": "C210",
+        "student_ids": [
+          1541310,
+          1546002
+        ]
+      }
+    }
+  ]
+}

@@ -29,7 +29,7 @@
         "id": 3,
         "name": "Ms Wilson",
         "office": "G300",
-        "subjects": ["11ENG.1"],
+        "subjects": ["11ENA.1"],
         "availability": {
             "Mon": [1, 2, 3, 4, 5, 6],
             "Tue": [1, 2, 3, 4, 5, 6],
