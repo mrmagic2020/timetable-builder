@@ -80,16 +80,16 @@ def parse_args() -> argparse.Namespace:
         "--count", type=int, default=50, help="Number of students to generate"
     )
     p.add_argument(
-        "--min-subjects",
+        "--min-cycles",
         type=int,
-        default=6,
-        help="Minimum subjects per student",
+        default=60,
+        help="Minimum total cycles per student",
     )
     p.add_argument(
-        "--max-subjects",
+        "--max-cycles",
         type=int,
-        default=7,
-        help="Maximum subjects per student",
+        default=60,
+        help="Maximum total cycles per student",
     )
     p.add_argument(
         "--seed",
@@ -129,12 +129,14 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def read_subject_ids(path: Path, id_field: str) -> List[str]:
+def read_subjects_data(path: Path, id_field: str) -> tuple[List[str], dict[str, int]]:
+    """Read subject IDs and their cycle requirements from the subjects file."""
     with path.open("r", encoding="utf-8") as f:
         raw = json.load(f)
     if not isinstance(raw, list):
         raise ValueError("subjects.json must be a JSON array")
     ids: List[str] = []
+    cycles: dict[str, int] = {}
     for i, obj in enumerate(raw):
         if not isinstance(obj, dict) or id_field not in obj:
             raise ValueError(f"subjects[{i}] must be an object with field '{id_field}'")
@@ -142,54 +144,62 @@ def read_subject_ids(path: Path, id_field: str) -> List[str]:
         if not isinstance(sid, str):
             sid = str(sid)
         ids.append(sid)
-    return ids
+        
+        # Read the required_per_cycle field
+        cycles_required = obj.get("required_per_cycle", 0)
+        if not isinstance(cycles_required, int):
+            cycles_required = int(cycles_required)
+        cycles[sid] = cycles_required
+    return ids, cycles
 
 
 def choose_subjects(
     available: List[str],
+    subject_cycles: dict[str, int],
     rng: random.Random,
-    min_count: int,
-    max_count: int,
+    min_cycles: int,
+    max_cycles: int,
     must_subjects: List[str],
     must_like: List[str],
 ) -> List[str]:
+    """Choose subjects based on total cycle requirements rather than subject count."""
     if not available:
         return []
-    k = rng.randint(min_count, max_count)
-    # Seed with required subjects (dedup, and only those present)
+    
+    target_cycles = rng.randint(min_cycles, max_cycles)
     chosen: List[str] = []
+    current_cycles = 0
     avset = set(available)
 
+    # Seed with required subjects (dedup, and only those present)
     for sid in must_subjects:
         if sid in avset and sid not in chosen:
             chosen.append(sid)
+            current_cycles += subject_cycles.get(sid, 0)
 
     # For each pattern, include one matched subject if present
     for pat in must_like:
         matches = [s for s in available if pat in s and s not in chosen]
         if matches:
-            chosen.append(rng.choice(matches))
+            selected = rng.choice(matches)
+            chosen.append(selected)
+            current_cycles += subject_cycles.get(selected, 0)
 
-    # Fill remaining from the rest
+    # Fill remaining from the rest to reach target cycles
     remaining = [s for s in available if s not in chosen]
     rng.shuffle(remaining)
-    needed = max(0, min(k, len(available)) - len(chosen))
-    chosen.extend(remaining[:needed])
-
-    # If we overshot due to required subjects > k, randomly trim but keep required elements biased to stay
-    if len(chosen) > k:
-        # Try to trim non-required first
-        required = set(must_subjects) | set(
-            [c for c in chosen if any(p in c for p in must_like)]
-        )
-        non_required = [s for s in chosen if s not in required]
-        rng.shuffle(non_required)
-        to_trim = len(chosen) - k
-        for s in non_required[:to_trim]:
-            chosen.remove(s)
-        # If still too many, trim randomly
-        while len(chosen) > k:
-            chosen.pop(rng.randrange(len(chosen)))
+    
+    for subject in remaining:
+        subject_cycle_cost = subject_cycles.get(subject, 0)
+        if current_cycles + subject_cycle_cost <= target_cycles:
+            chosen.append(subject)
+            current_cycles += subject_cycle_cost
+        # Stop if we've reached our target or if adding any remaining subject would exceed it
+        if current_cycles >= min_cycles and all(
+            current_cycles + subject_cycles.get(s, 0) > target_cycles 
+            for s in remaining if s not in chosen
+        ):
+            break
 
     return chosen
 
@@ -210,7 +220,7 @@ def main() -> None:
     if not subjects_file.exists():
         raise SystemExit(f"Subjects file not found: {subjects_file}")
 
-    available_ids = read_subject_ids(subjects_file, args.id_field)
+    available_ids, subject_cycles = read_subjects_data(subjects_file, args.id_field)
     if not available_ids:
         raise SystemExit("No subjects found in subjects file")
 
@@ -221,9 +231,10 @@ def main() -> None:
         name = make_name(rng)
         subs = choose_subjects(
             available=available_ids,
+            subject_cycles=subject_cycles,
             rng=rng,
-            min_count=int(args.min_subjects),
-            max_count=int(args.max_subjects),
+            min_cycles=int(args.min_cycles),
+            max_cycles=int(args.max_cycles),
             must_subjects=list(args.must_subject or []),
             must_like=list(args.must_like or []),
         )

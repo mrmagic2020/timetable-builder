@@ -10,7 +10,7 @@ from src.loaders.DataLoaders import (
 from src.models.timetable import Day, Lesson, LessonPlacement, Timetable
 
 
-def generate_timetable_example():
+def generate_timetable_example(): 
     tt = Timetable(periods_per_day=6, owner_id=0)
     lesson = Lesson(id="L001", subject_id="SUB001", teacher_id=1, room_id="R001")
     tt.add(LessonPlacement(day=Day.AMON, period=1, lesson=lesson))
@@ -31,6 +31,7 @@ def generate_all():
     )
     scheduler.schedule_all()
     scheduler.save()
+    print(scheduler.evaluate_hard_constraints())
     print("Generated timetables written to output/timetables")
 
 

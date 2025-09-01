@@ -68,14 +68,16 @@ class TimetableScheduler:
 
     # ------------------ public API ------------------
     def schedule_all(self) -> None:
-        """Perform initial naive scheduling honoring hard constraints."""
-        # Deterministic ordering: more frequent subjects first
-        ordered_subjects = sorted(
-            self.subjects, key=lambda s: (-(s.required_per_cycle), s.id)
-        )
-        for subj in ordered_subjects:
-            self.total_required += max(0, subj.required_per_cycle)
-            self._schedule_subject(subj)
+        """Perform student-centric scheduling with backtracking to ensure all requirements are met."""
+        # Build requirements list: [(student_id, subject_id, lessons_needed)]
+        requirements = self._build_requirements()
+        self.total_required = sum(req[2] for req in requirements)
+        
+        # Try to schedule using backtracking
+        if not self._backtrack_schedule(requirements, 0):
+            print(f"Warning: Could not schedule all requirements. Placed {self.placed_lessons}/{self.total_required} lessons.")
+        
+        self._update_unscheduled_tracking(requirements)
 
     def save(self, output_dir: str | Path = "output/timetables") -> None:
         out = Path(output_dir)
@@ -108,7 +110,6 @@ class TimetableScheduler:
         }
         # Teacher / room overlaps already structurally prevented; we can still scan.
         for tt in self.teacher_timetables.values():
-            seen = set()
             for day in self.days:
                 for p in range(1, self.periods_per_day + 1):
                     if len(tt.lessons_on(day, p)) > 1:
@@ -157,62 +158,145 @@ class TimetableScheduler:
             for t in self.teachers
         }
 
-    def _schedule_subject(self, subj: Subject) -> None:
-        remaining = subj.required_per_cycle
-        if remaining <= 0:
-            return
-        enrolled = self.students_by_subject.get(subj.id, [])
-        if not enrolled:
-            return
-        qualified = self.subject_teachers.get(subj.id, [])
-        if not qualified:
-            self.unscheduled[subj.id] += remaining
-            return
-        day_pointer = 0
-        while remaining > 0:
-            day = self.days[day_pointer % len(self.days)]
-            placed_this_loop = False
+    def _build_requirements(self) -> List[Tuple[StudentId, SubjectId, int]]:
+        """Build a list of (student_id, subject_id, lessons_needed) requirements."""
+        requirements = []
+        for student in self.students:
+            for subject_id in student.subjects:
+                if subject_id in self.subject_index:
+                    subject = self.subject_index[subject_id]
+                    lessons_needed = subject.required_per_cycle
+                    if lessons_needed > 0:
+                        requirements.append((student.id, subject_id, lessons_needed))
+        
+        # Sort by total workload for better backtracking performance
+        requirements.sort(key=lambda x: (-x[2], x[0], x[1]))
+        return requirements
+
+    def _backtrack_schedule(self, requirements: List[Tuple[StudentId, SubjectId, int]], req_index: int) -> bool:
+        """Recursive backtracking to schedule all requirements."""
+        if req_index >= len(requirements):
+            return True  # All requirements scheduled
+        
+        student_id, subject_id, lessons_needed = requirements[req_index]
+        
+        # Try to schedule all lessons for this (student, subject) pair
+        placements = []
+        for lesson_num in range(lessons_needed):
+            placement = self._find_slot_for_student_subject(student_id, subject_id, placements)
+            if placement is None:
+                # Backtrack: remove previously placed lessons for this requirement
+                self._remove_placements(placements)
+                return False
+            
+            placements.append(placement)
+            self._commit_placement(placement)
+        
+        # Try to schedule remaining requirements
+        if self._backtrack_schedule(requirements, req_index + 1):
+            return True
+        
+        # Backtrack: remove all placements for this requirement
+        self._remove_placements(placements)
+        return False
+
+    def _find_slot_for_student_subject(
+        self, 
+        student_id: StudentId, 
+        subject_id: SubjectId, 
+        existing_placements: List[LessonPlacement]
+    ) -> Optional[LessonPlacement]:
+        """Find a free slot for a student-subject lesson."""
+        qualified_teachers = self.subject_teachers.get(subject_id, [])
+        if not qualified_teachers:
+            return None
+        
+        # Try all possible slots
+        for day in self.days:
             for period in range(1, self.periods_per_day + 1):
-                slot = (day, period)
-                teacher = self._pick_teacher(qualified, day, period)
+                # Check if student is free
+                if self.student_timetables[student_id].lessons_on(day, period):
+                    continue
+                
+                # Check if this conflicts with existing placements we're trying to place
+                if any(p.day == day and p.period == period for p in existing_placements):
+                    continue
+                
+                # Find an available teacher
+                teacher = self._pick_teacher(qualified_teachers, day, period)
                 if teacher is None:
                     continue
+                
+                # Find an available room
                 room = self._pick_room(day, period)
                 if room is None:
                     continue
-                # Student availability check (slot empty)
-                if any(
-                    self.student_timetables[stu.id].lessons_on(day, period)
-                    for stu in enrolled
-                ):
-                    continue
+                
+                # Create the lesson placement
                 self.lesson_counter += 1
                 lesson = Lesson(
                     id=f"L{self.lesson_counter:05d}",
-                    subject_id=subj.id,
+                    subject_id=subject_id,
                     teacher_id=teacher.id,
                     room_id=room.id,
-                    student_ids=tuple(stu.id for stu in enrolled),
+                    student_ids=(student_id,),
                 )
-                placement = LessonPlacement(day=day, period=period, lesson=lesson)
-                # Commit
-                self.teacher_timetables[teacher.id].add(placement)
-                self.teacher_busy[teacher.id].add(slot)
-                self.room_busy[room.id].add(slot)
-                for stu in enrolled:
-                    self.student_timetables[stu.id].add(placement)
-                remaining -= 1
-                self.placed_lessons += 1
-                placed_this_loop = True
-                break
-            day_pointer += 1
-            # Stop if we've looped through full grid without placement
-            if (
-                not placed_this_loop
-                and day_pointer >= len(self.days) * self.periods_per_day
-            ):
-                self.unscheduled[subj.id] += remaining
-                break
+                return LessonPlacement(day=day, period=period, lesson=lesson)
+        
+        return None
+
+    def _commit_placement(self, placement: LessonPlacement) -> None:
+        """Add a placement to all relevant timetables and update occupancy."""
+        slot = (placement.day, placement.period)
+        
+        # Add to teacher timetable
+        self.teacher_timetables[placement.lesson.teacher_id].add(placement)
+        self.teacher_busy[placement.lesson.teacher_id].add(slot)
+        
+        # Add to room occupancy
+        self.room_busy[placement.lesson.room_id].add(slot)
+        
+        # Add to student timetables
+        for student_id in placement.lesson.student_ids:
+            self.student_timetables[student_id].add(placement)
+        
+        self.placed_lessons += 1
+
+    def _remove_placements(self, placements: List[LessonPlacement]) -> None:
+        """Remove placements from timetables and update occupancy (backtrack)."""
+        for placement in placements:
+            slot = (placement.day, placement.period)
+            
+            # Remove from teacher timetable
+            self.teacher_timetables[placement.lesson.teacher_id].remove(placement)
+            self.teacher_busy[placement.lesson.teacher_id].discard(slot)
+            
+            # Remove from room occupancy
+            self.room_busy[placement.lesson.room_id].discard(slot)
+            
+            # Remove from student timetables
+            for student_id in placement.lesson.student_ids:
+                self.student_timetables[student_id].remove(placement)
+            
+            self.placed_lessons -= 1
+
+    def _update_unscheduled_tracking(self, requirements: List[Tuple[StudentId, SubjectId, int]]) -> None:
+        """Update unscheduled counts based on what wasn't placed."""
+        scheduled_by_subject = defaultdict(int)
+        for req in requirements:
+            student_id, subject_id, lessons_needed = req
+            # Count actual scheduled lessons for this student-subject
+            student_tt = self.student_timetables[student_id]
+            scheduled_count = 0
+            for day in self.days:
+                for period in range(1, self.periods_per_day + 1):
+                    for lp in student_tt.lessons_on(day, period):
+                        if lp.lesson.subject_id == subject_id:
+                            scheduled_count += 1
+            
+            unscheduled = max(0, lessons_needed - scheduled_count)
+            if unscheduled > 0:
+                self.unscheduled[subject_id] += unscheduled
 
     def _pick_teacher(
         self, candidates: List[Teacher], day: Day, period: int
@@ -268,7 +352,7 @@ class TimetableScheduler:
             "lesson_counter": self.lesson_counter,
             "placed_lessons": self.placed_lessons,
             "total_required": self.total_required,
-            "unscheduled": dict(self.unscheduled),
+            "unscheduled": {str(k): v for k, v in self.unscheduled.items()},
             "summary": self.summary(),
         }
         with path.open("w", encoding="utf-8") as f:

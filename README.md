@@ -1,6 +1,42 @@
 # timetable-builder
 
-A heuristic-based timetable builder.
+A heuristic-based timetable builder with visualization capabilities.
+
+## Features
+
+- **Timetable Generation**: Heuristic-based scheduling algorithm
+- **Data Visualization**: Interactive GUI and CLI for viewing generated timetables
+- **Search Functionality**: Find people by name or ID quickly
+- **Multiple Formats**: Support for both students and teachers
+
+## Visualizing Timetables
+
+After generating timetables, you can visualize them using the built-in visualizer:
+
+### GUI Mode (Recommended)
+
+```bash
+# Make sure you have tkinter support (see installation below)
+python -m src.visualizer
+```
+
+### CLI Mode
+
+```bash
+python -m src.visualizer --cli
+```
+
+### Installation Requirements for GUI
+
+On macOS with Homebrew:
+
+```bash
+brew install python-tk
+# Create a new virtual environment with the tkinter-enabled Python
+/opt/homebrew/bin/python3.13 -m venv .venv_tkinter
+source .venv_tkinter/bin/activate
+pip install -r requirements.txt
+```
 
 ## Data layout
 
